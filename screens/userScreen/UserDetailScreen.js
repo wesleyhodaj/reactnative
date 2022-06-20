@@ -62,8 +62,8 @@ class UserDetailScreen extends Component {
       });
     });
   }
-  deleteUser() {
-    const dbRef = firebase.firestore().collection('users').doc(this.props.route.params.userkey)
+async deleteUser() {
+    const dbRef  = await firestore().collection('users').doc(this.props.route.params.userkey)
       dbRef.delete().then((res) => {
           console.log('Item removed from database')
           this.props.navigation.navigate('UserScreen');

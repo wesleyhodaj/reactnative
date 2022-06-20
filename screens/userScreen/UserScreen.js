@@ -3,49 +3,26 @@ import React, {useState, useEffect, Component} from 'react';
 import {StyleSheet, ScrollView, ActivityIndicator, View} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
-import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 const UserScreen = () => {
   const [userArr, setUserArr] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
-  // useFocusEffect(
-  //   React.useCallback(async() => {
 
-  //       try {
-  //         const user = await  getCollection();
-
-  //         // if (isActive) {
-  //         //   setUser(user);
-  //         // }
-  //       } catch (e) {
-  //         // Handle error
-  //       }
-
-  //     // fetchUser();
-
-  //     return () => {
-  //       user
-  //     };
-  //   }, [])
-  // );
-
-  useEffect(() => {
-    if (isFocused) {
+  useFocusEffect(
+    React.useCallback(() => {
       getCollection();
-    }
-  }, [isFocused]);
-  //  componentDidMount() {
-  //    this.getCollection();
 
-  //   // this.unsubscribe = await this.docs(this.getCollection);
-  // }
+      return () => null;
+    }, []),
+  );
 
-  // async componentWillUnmount() {
-  //   // this.getCollection;
-  // }
+  // useEffect(() => {
+  //   getCollection();
+  // }, []);
 
   getCollection = async () => {
+
     const userArr = [];
     await firestore()
       .collection('users')
@@ -63,7 +40,9 @@ const UserScreen = () => {
           });
         });
       });
-    setIsLoading(!isLoading);
+    setIsLoading(false);
+    console.log(' we cone hgere')
+    console.log(isLoading)
     setUserArr(userArr);
     // this.setState({
     //   userArr,
